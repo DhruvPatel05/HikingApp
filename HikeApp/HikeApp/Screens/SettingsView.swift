@@ -33,10 +33,23 @@ struct SettingsView: View {
             )
             .padding(.top,8)
             
-            Text("Where can you find \nperfect tracks")
-                .font(.title2)
-                .fontWeight(.heavy)
-            
+            VStack(spacing:8) {
+                Text("Where can you find \nperfect tracks")
+                    .font(.title2)
+                    .fontWeight(.heavy)
+                
+                Text("The Hike Which looks gorgeous in the photo, but even better once you are actually there. The hike that you hope to do again someday. \nFind the best day hikes in the app.")
+                    .font(.footnote)
+                    .italic()
+                Text("Dust off the boots! It's time for a walk.")
+                    .fontWeight(.heavy)
+                    .foregroundColor(.customGreenMedium)
+            }
+            .multilineTextAlignment(.center)
+            .padding(.bottom,16)
+        }
+        // MARK: - HEADER
+        .listRowSeparator(.hidden)
             // MARK: - SECTION Icons
             
             // MARK: - SECTION About
@@ -44,7 +57,7 @@ struct SettingsView: View {
             // MARK: List
             
         }
-    }
+    
 }
 
 struct SettingsView_Previews: PreviewProvider {
