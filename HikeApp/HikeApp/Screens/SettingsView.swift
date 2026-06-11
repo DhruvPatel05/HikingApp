@@ -8,6 +8,18 @@
 import SwiftUI
 
 struct SettingsView: View {
+    // MARK: - PROPERTIES
+    
+    private let alternateAppIcons: [String] = [
+        "AppIcon-MagnifyingGlass",
+        "AppIcon-Map",
+        "AppIcon-Mushroom",
+        "AppIcon-Camera",
+        "AppIcon-Backpack",
+        "AppIcon-Campfire"
+    ]
+    @State private var isChangingIcon = false
+    
     var body: some View {
         List {
             // MARK: - SECTION: HEADER
@@ -63,7 +75,66 @@ struct SettingsView: View {
             // MARK: - HEADER
             .listRowSeparator(.hidden)
             // MARK: - SECTION Icons
-            
+            Section(header: Text("Alternate Icons")) {
+                ScrollView(.horizontal,showsIndicators: false) {
+                    HStack(spacing:12) {
+                        ForEach(alternateAppIcons.indices, id: \.self) {
+                            item in
+                            Button {
+                                print("Icon was pressed.")
+                                
+                                guard UIApplication.shared.supportsAlternateIcons else {
+                                       print("Alternate app icons are not supported.")
+                                       return
+                                   }
+
+                                   guard !isChangingIcon else {
+                                       print("Icon change already in progress.")
+                                       return
+                                   }
+
+                                   let iconName = alternateAppIcons[item]
+
+                                   guard UIApplication.shared.alternateIconName != iconName else {
+                                       print("This icon is already selected.")
+                                       return
+                                   }
+
+                                   isChangingIcon = true
+
+                                   UIApplication.shared.setAlternateIconName(iconName) { error in
+                                       DispatchQueue.main.async {
+                                           isChangingIcon = false
+
+                                           if let error = error {
+                                               print("Failed request to update the app's icon: \(error.localizedDescription)")
+                                               print(error)
+                                           } else {
+                                               print("Success! You changed the app icon to \(iconName)")
+                                           }
+                                       }
+                                   }
+                               } label: {
+                                   Image("\(alternateAppIcons[item])-Preview")
+                                       .resizable()
+                                       .scaledToFit()
+                                       .frame(width: 80, height: 80)
+                                       .cornerRadius(16)
+                               }
+                               .buttonStyle(.borderless)
+                               .disabled(isChangingIcon)
+                        }
+                    }
+                }// Scroll view
+                .padding(.top,12)
+                Text("Choose your favourite app icon from the collection above.")
+                    .frame(minWidth:0,maxWidth: .infinity)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.secondary)
+                    .font(.footnote)
+                    .padding(.bottom,12)
+            }
+            .listRowSeparator(.hidden)
             // MARK: - SECTION About
             
             Section(
