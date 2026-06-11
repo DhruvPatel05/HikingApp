@@ -47,6 +47,7 @@ struct SettingsView: View {
             }
             .multilineTextAlignment(.center)
             .padding(.bottom,16)
+            .frame(maxWidth:.infinity)
         }
         // MARK: - HEADER
         .listRowSeparator(.hidden)
