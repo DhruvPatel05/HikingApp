@@ -91,6 +91,13 @@ struct SettingsView: View {
                     rowContent: "iOS, iPadOS",
                     rowTintColor: .red
                 )
+                
+                CustomListRowView(
+                    rowLabel: "Technology",
+                    rowIcon: "swift",
+                    rowContent: "Swift",
+                    rowTintColor: .orange
+                )
             }//: SECTION
             // MARK: List
         }
